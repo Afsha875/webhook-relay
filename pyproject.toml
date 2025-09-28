@@ -1,0 +1,46 @@
+[project]
+name = "webhook-relay"
+version = "0.1.0"
+description = "Webhook ingestion and relay service with HMAC verification and retry/backoff delivery."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.115.6",
+    "starlette==0.41.3",
+    "pydantic==2.10.4",
+    "uvicorn==0.34.0",
+    "httpx==0.28.1",
+]
+
+[project.scripts]
+webhook-relay = "webhook_relay.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "ruff==0.8.6",
+    "mypy==1.14.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/webhook_relay"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
